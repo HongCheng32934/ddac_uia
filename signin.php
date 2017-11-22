@@ -75,7 +75,7 @@
 			<div class="large-4 columns" style="background-color:white;padding:15px;position:absolute;top:50%;left:50%;margin: -220px 0 0 -250px;">
 
 				<div class="centralise component-padding" style="padding-top: 5px">
-					<a href="index.php"><img id="classic-top-logo" src="img/uia-full-logo.png" /></a>
+					<a href="index.php"><img id="classic-top-logo" src="img/uia-logo.png" /></a>
 				</div>
 
 				<form method="post" action="" accept-charset="UTF-8">

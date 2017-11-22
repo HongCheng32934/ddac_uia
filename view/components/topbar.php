@@ -1,7 +1,7 @@
 <?php
 $bookingActive = false;
 
-if($page->data()[Page::COL_SLUG] == 'main' || $page->data()[Page::COL_SLUG] == 'detail') {
+if($page->data()[Page::COL_SLUG] == 'home' || $page->data()[Page::COL_SLUG] == 'detail') {
 	$bookingActive = true;
 }
 
@@ -29,6 +29,8 @@ if($page->data()[Page::COL_SLUG] == 'main' || $page->data()[Page::COL_SLUG] == '
             <form method="post" action="" accept-charset="UTF-8">
             <div class="top-bar-right">
 			    <ul class="dropdown menu" data-dropdown-menu>
+					<li><a href="index.php">Home</a></li>
+					<li><a href="index.php?page=search">Booking</a></li>
 					<li>
 						<a href="#"><?php echo $_SESSION['name']; ?></a>
 						<ul class="menu vertical">

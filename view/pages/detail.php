@@ -9,7 +9,7 @@ if(Input::get('id')) {
 
 }
 else {
-	header('Location: dashboard.php?page=main');
+	header('Location: index.php');
 }
 
 ?>
@@ -17,10 +17,7 @@ else {
 <!-- Content start -->
 <div id="content" style="height:calc(100% - 56px); ">
 
-	<?php require_once('/view/components/sidebar.php'); ?>
-
-	<div class="off-canvas-content" data-off-canvas-content="true">
-		<div class="full-width" style="height:100%">
+		<div class="row" style="padding-top: 15px">
 			<!-- check destination + date, select seats, pay -->
 			<div class="small-12 medium-8 columns" style="padding: 0; height: 100%; overflow-y: auto">
 				<div style="width:555px;margin:0 auto;position:relative">
@@ -48,7 +45,7 @@ else {
                               <li><span>Origin</span><?php echo $flight[Booking::COL_SOURCE]; ?></li>
                               <li><span>Destination</span><?php echo $flight[Booking::COL_DESTINATION]; ?></li>
                               <li><span>Departure</span><?php echo $flight[Booking::COL_DEPARTURE]; ?></li>
-                              <li><span>Total (<?php echo $_SESSION['currency'] ?>)</span><p id="total">0</p></li>
+                              <li><span>Total</span>$<p id="total">0</p></li>
                           </ul>
                       </div>
                   </div>
@@ -58,7 +55,6 @@ else {
 			</div>
 
 		</div>
-	</div>
 
 </div>
 <!-- Content end -->
@@ -95,19 +91,19 @@ $(document).ready(function() {
 		],
 		seats: {
 			f: {
-				price   : <?php echo $flight[BOOKING::COL_FIRST] * $rate; ?>,
+				price   : <?php echo $flight[BOOKING::COL_FIRST]; ?>,
 				classes : 'first-class',
 				category: 'First Class',
 				type	: 'f'
 			},
 			b: {
-				price   : <?php echo $flight[BOOKING::COL_BUSINESS] * $rate; ?>,
+				price   : <?php echo $flight[BOOKING::COL_BUSINESS]; ?>,
 				classes : 'business-class',
 				category: 'Business Class',
 				type	: 'b'
 			},
 			e: {
-				price   : <?php echo $flight[BOOKING::COL_ECONOMY] * $rate; ?>,
+				price   : <?php echo $flight[BOOKING::COL_ECONOMY]; ?>,
 				classes : 'economy-class',
 				category: 'Economy Class',
 				type	: 'e'

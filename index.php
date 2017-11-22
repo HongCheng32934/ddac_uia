@@ -2,6 +2,7 @@
 	require_once('modal/core/setup.php');
 
 	$view = $page->pageCheck();
+	$booking = Booking::getInstance();
 ?>
 
 <!DOCTYPE html>

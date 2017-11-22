@@ -3,7 +3,67 @@
 
 <?php if($user->isLoggedIn()): ?>
 
-    <!--dashboard home-->
+    <?php
+    if(Input::exist()) {
+
+        header('Location: index.php?page=search&'.Input::get('type').'='.Input::get('airport'));
+    }
+    ?>
+
+    <div class="row" style="padding-top: 15px">
+
+        <div class="small-12 large-8 columns">
+            <h4>
+                <i class="fi-info"></i>
+                 Booking
+            </h4>
+            
+            <div id="content-load">
+                
+            </div>
+        </div>
+
+        <div class="small-12 large-4 columns">
+            <div class="callout">
+                <h4>
+                    <i class="fi-plus"></i>
+                     Search
+                </h4>
+                
+                <form id="new" method="post" action="" accept-charset="UTF-8">
+                    <label>Search Type
+                        <select name="type">
+                            <option value="source">Origin</option>
+                            <option value="destination">Destination</option>
+                        </select>
+                    </label>
+
+                    <label>Airport
+                        <select name="airport">
+                            <option value="BKK">Bangkok, Thailand - Suvarnabhumi (BKK)</option>
+                            <option value="CDG">Paris, France - Charles de Gaulle (CDG)</option>
+                            <option value="CGK">Jakarta, Indonesia - Soekarno–Hatta International (CGK)</option>
+                            <option value="CWC">Chernivtsi, Ukraine - Chernivtsi (CWC)</option>
+                            <option value="DXB">Dubai, UAE - Dubai International (DXB)</option>
+                            <option value="HKG">Hong Kong, Hong Kong - Hong Kong International (HKG)</option>
+                            <option value="ICN">Seoul, South Korea - Incheon International (ICN)</option>
+                            <option value="JFK">New York City, NY - John F. Kennedy International (JFK)</option>
+                            <option value="KUL">Kuala Lumpur, Malaysia - Kuala Lumpur International (KUL)</option>
+                            <option value="LHR">London, United Kingdom - Heathrow (LHR)</option>
+                            <option value="NGS">Nagasaki, Japan - Nagasaki (NGS)</option>
+                            <option value="PEK">Beijing, China - Beijing Capital International (PEK)</option>
+                            <option value="RWN">Rivne, Ukraine - Rivne International (RWN)</option>
+                            <option value="SIN">Singapore, Singapore - Changi (SIN)</option>
+                            <option value="TPE">Taipei, Taiwan - Taoyuan International (TPE)</option>
+                        </select>
+                    </label>
+
+                    <button type="submit" id="post" class="button expanded">Search</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
 
 <?php else: ?>
 
@@ -88,3 +148,25 @@
 <!-- Foundation -->
 <script src="js/foundation.min.js"></script>
 <script src="js/app.js"></script>
+<script src="js/ajax.post.js"></script>
+<script>
+
+$(document).ready(function() {
+
+    $('#content-load').scrollPagination({
+
+        nop     : <?php echo Config::get('max_booking_display'); ?>, // The number of posts per scroll to be loaded
+        offset  : 0, // Initial offset, begins at 0 in this case
+        error   : 'No more bookings', // When the user reaches the end this is the message that is
+                                    // displayed. You can change this if you want.
+        delay   : 500, // When you scroll down the posts will load after a delayed amount of time.
+                       // This is mainly for usability concerns. You can alter this as you see fit
+        scroll  : true, // The main bit, if set to false posts will not load as the user scrolls. 
+                       // but will still load if the user clicks.
+        userID  : <?php echo $_SESSION['ID']; ?>
+        
+    });
+    
+});
+
+</script>

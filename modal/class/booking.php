@@ -41,19 +41,23 @@ class Booking {
 
 	//get all users booking
 	//find booking
-	public function getAirports($iataOnly = true, $orderByCountry = true) {
-		$iataCol = self::COL_IATA;
+	public function searchFlight($type, $airport) {
+		$query = "SELECT " . self::FLIGHT_TABLE . "." . self::COL_FLIGHT_ID . ",";
+		$query .= self::ROUTE_TABLE . "." . self::COL_SOURCE . ",";
+		$query .= self::ROUTE_TABLE . "." . self::COL_DESTINATION . ",";
+		$query .= self::FLIGHT_TABLE . "." . self::COL_DEPARTURE . ",";
+		$query .= self::PRICE_TABLE . "." . self::COL_ECONOMY . " FROM ";
+		$query .= self::FLIGHT_TABLE . " LEFT JOIN " . self::ROUTE_TABLE;
+		$query .= " ON " . self::FLIGHT_TABLE . "." . self::COL_ROUTE . " = " . self::ROUTE_TABLE . "." . self::COL_ROUTE;
+		$query .= " LEFT JOIN " . self::PRICE_TABLE;
+		$query .= " ON " . self::PRICE_TABLE . "." . self::COL_PRICE . " = " . self::FLIGHT_TABLE . "." . self::COL_PRICE;
+		$query .= " WHERE " . self::ROUTE_TABLE . "." . $type . ' = "' . $airport . '"';
+		$query .= " AND " . self::FLIGHT_TABLE . "." . self::COL_DEPARTURE . " > NOW()";
+		$query .= " ORDER BY " . self::FLIGHT_TABLE . "." . self::COL_DEPARTURE . " ASC";
 
-		if ($iataOnly) {
-			return $this->_db->select(self::AIRPORT_TABLE, array($iataCol), array(), "ORDER BY {$iataCol} ASC")->fetchAll();
-		}
-		else {
-			$orderCol = $orderByCountry ? self::COL_COUNTRY : self::COL_IATA;
-
-			return $this->_db->select(self::AIRPORT_TABLE, array(), array(), "ORDER BY {$orderCol} ASC")->fetchAll();
-		}
+		$data = $this->_db->query($query);
+		return $data->fetchAll();
 	}
-	// departure, origin, destination
 
 	/**
 	* Get booked seats
@@ -124,10 +128,6 @@ class Booking {
 		$query .= " ON " . self::BOOKING_TABLE . "." . self::COL_FLIGHT_ID . "=" . self::FLIGHT_TABLE . "." . self::COL_FLIGHT_ID;
 		$query .= " INNER JOIN " . self::ROUTE_TABLE;
 		$query .= " ON " . self::FLIGHT_TABLE . "." . self::COL_ROUTE . "=" . self::ROUTE_TABLE . "." . self::COL_ROUTE;
-		$query .= " INNER JOIN " . self::AIRPORT_TABLE . " AS src";
-		$query .= " ON " . self::ROUTE_TABLE . "." . self::COL_SOURCE . "=src." . self::COL_IATA;
-		$query .= " INNER JOIN " . self::AIRPORT_TABLE . " AS des";
-		$query .= " ON " . self::ROUTE_TABLE . "." . self::COL_DESTINATION . "=des." . self::COL_IATA;
 		$query .= " WHERE " . self::BOOKING_TABLE . "." . self::COL_USER_ID . "={$userID}";
 		$query .= " GROUP BY " . self::BOOKING_TABLE . "." . self::COL_BOOKING_ID;
 		$query .= " ORDER BY " . self::BOOKING_TABLE . "." . self::COL_DATE_BOOKED . " DESC";

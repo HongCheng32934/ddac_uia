@@ -1,5 +1,5 @@
 <?php
-
+$error = 0;
 // clear session, just in case
 unset($_SESSION['seats']);
 unset($_SESSION['flight']);
@@ -17,18 +17,39 @@ if(Input::get('flight')) {
 	$seats = $booking->getFlightBookedSeats($flightID);
 }
 else {
-	header('Location: dashboard.php?page=search');
+	header('Location: index.php');
 }
 
 if(Input::exist() && isset($_POST['confirm'])) {
-	// seats
-    foreach(Input::get('seats') as $seat) {
-    	$seatInfo = explode(":", $seat);
+	$bookDate = date('Y-m-d H:i:s');
 
-		$_SESSION['seats'][$seatInfo[0]] = $seatInfo[1];
-    }
+	$newBooking = array(
+			Booking::COL_USER_ID => $_SESSION['ID'],
+			Booking::COL_FLIGHT_ID => $_SESSION['flight'],
+			Booking::COL_DATE_BOOKED => $bookDate
+		);
 
-	header('Location: dashboard.php?page=checkout');
+	$newID = $booking->createBooking($newBooking);
+
+	if($newID > 0) {
+		$bookedSeats = array();
+
+		// seats
+	    foreach(Input::get('seats') as $seat) {
+	    	$bookedSeats[] = $newID.",'{$seat}'";
+	    }
+
+		$booking->addBookingSeats($bookedSeats);
+
+		unset($_SESSION['flight']);
+
+		header('Location: index.php');
+	}
+	else {
+		$error = 1;
+	}
+
+	//header('Location: dashboard.php?page=checkout');
 }
 
 ?>
@@ -36,12 +57,26 @@ if(Input::exist() && isset($_POST['confirm'])) {
 <!-- Content start -->
 <div id="content" style="height:calc(100% - 56px); ">
 
-	<?php require_once('/view/components/sidebar.php'); ?>
+	<div class="small-12 small-centered columns">
 
-	<div class="off-canvas-content" data-off-canvas-content="true">
-		<div class="full-width" style="height:100%">
-			<!-- check destination + date, select seats, pay -->
-			<div class="small-12 medium-8 columns" style="padding: 0; height: 100%; overflow-y: auto">
+		<?php if($error == 1): ?>
+			<div class="small-12 columns">
+				<div class="alert callout" data-closable>
+					<h5>Booking Failed</h5>
+					<p>It appears that there is an issue when creating the booking. Please try again later.</p>
+					<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		<?php endif; ?>
+
+		<div class="row column">
+			<div class="small-12 columns" style="padding-top: 15px; padding-bottom: 15px">
+				<h3><i class="fi-magnifying-glass"></i> Seat Selection</h3>
+			</div>
+
+			<div class="small-8 columns">
 				<div style="width:555px;margin:0 auto;position:relative">
 					<div id="seat-map">
 						<div class="front-indicator">Front</div>
@@ -51,17 +86,11 @@ if(Input::exist() && isset($_POST['confirm'])) {
 						<div id="legend"></div>
 					</div>
 				</div>
-
 			</div>
 
-			<div class="small-12 medium-4 columns" style="padding: 0; height: 100%; overflow-y: auto">
-
+			<div class="small-4 columns">
 				<form method="post" action="" accept-charset="UTF-8">
-					<div class="row columns" style="padding: 0px;">
-						<div class="row columns" style="padding: 15px;">
-							<h3><i class="fi-plus"></i> New Booking</h3>
-						</div>
-
+					<div class="row columns">
                         <ul class="accordion" data-accordion="true" data-multi-expand="true" data-allow-all-closed="true">
                             <li class="accordion-item is-active" data-accordion-item="true">
                               <a href="#" class="accordion-title">Flight</a>
@@ -89,7 +118,7 @@ if(Input::exist() && isset($_POST['confirm'])) {
                                   <div class="row">
                                       <div class="small-12 columns">
 										<ul id="selected-seats"></ul>
-										<h5 style="margin-bottom:0px">Total (<?php echo $_SESSION['currency']; ?>): <b><span id="total">0</span></b></h5>
+										<h5 style="margin-bottom:0px">Total: <b>$<span id="total">0</span></b></h5>
 
                                       </div>
                                   </div>
@@ -104,10 +133,10 @@ if(Input::exist() && isset($_POST['confirm'])) {
 
 					</div>
 				</form>
-
 			</div>
 
 		</div>
+
 	</div>
 
 </div>
@@ -120,7 +149,6 @@ if(Input::exist() && isset($_POST['confirm'])) {
 <script src="js/foundation.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/foundation-datepicker.min.js"></script>
-<script src="js/jquery.autocomplete.min.js"></script>
 <script src="js/jquery.seat-charts.min.js"></script>
 <script>
 
@@ -147,19 +175,19 @@ $(document).ready(function() {
 		],
 		seats: {
 			f: {
-				price   : <?php echo $flight[BOOKING::COL_FIRST] * $rate; ?>,
+				price   : <?php echo $flight[BOOKING::COL_FIRST]; ?>,
 				classes : 'first-class',
 				category: 'First Class',
 				type	: 'f'
 			},
 			b: {
-				price   : <?php echo $flight[BOOKING::COL_BUSINESS] * $rate; ?>,
+				price   : <?php echo $flight[BOOKING::COL_BUSINESS]; ?>,
 				classes : 'business-class',
 				category: 'Business Class',
 				type	: 'b'
 			},
 			e: {
-				price   : <?php echo $flight[BOOKING::COL_ECONOMY] * $rate; ?>,
+				price   : <?php echo $flight[BOOKING::COL_ECONOMY]; ?>,
 				classes : 'economy-class',
 				category: 'Economy Class',
 				type	: 'e'
@@ -184,9 +212,7 @@ $(document).ready(function() {
 		},
 		click: function () {
 			if (this.status() == 'available') {
-				//let's create a new <li> which we'll add to the cart items
-				console.log(this.data().type);
-				$('<li>'+this.data().category+' Seat #<input type="checkbox" name="seats[]" style="display: none" value="'+this.settings.label+':'+this.data().type+'" checked/>'+this.settings.label+': <b>'+<?php echo "'".$_SESSION['currency']."'"; ?>+this.data().price+'</b> <a href="javascript:void(0)" class="cancel-cart-item">[cancel]</a></li>')
+				$('<li><input type="checkbox" name="seats[]" style="display: none" value="'+this.settings.label+':'+this.data().type+'" checked/>'+this.settings.label+' ('+this.data().category+'): <b>$'+this.data().price+'</b> <a href="javascript:void(0)" class="cancel-cart-item">[cancel]</a></li>')
 					.attr('id', 'cart-item-'+this.settings.id)
 					.data('seatId', this.settings.id)
 					.appendTo($cart);

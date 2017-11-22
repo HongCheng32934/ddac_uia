@@ -23,6 +23,7 @@ class Config {
 		
 		// project specific settings
 		'max_booking_display' => 5,
+		'region' => 'Global',
 
 		/**
 		* Database
@@ -37,10 +38,10 @@ class Config {
 		* 1. Recommended to use utf8mb4 for database charset,
 		* 	 as php do not support utf8 fully.
 		*/
-		'db_host' => 'ap-cdbr-azure-southeast-b.cloudapp.net',
-		'db_username' => 'b53d1cd3aa407e',
-		'db_password' => '3641bc08',
-		'db_name' => 'acsm_ffd0fbc07265879',
+		'db_host' => '127.0.0.1',
+		'db_username' => 'root',
+		'db_password' => '',
+		'db_name' => 'uia_app',
 		'db_charset' => 'utf8mb4',
 
 		/**
@@ -151,10 +152,5 @@ class Config {
 		if(isset(self::$config[$param])) {
 			return self::$config[$param];
 		}
-	}
-
-	public static function loadConfig($url) {
-		$ini = file_get_contents($url);
-		$config = parse_ini_string($ini);
 	}
 }

@@ -3,7 +3,6 @@
 class Booking {
 	// table field name
 	const BOOKING_TABLE = 'booking';
-	const AIRPORT_TABLE = 'airport';
 	const ROUTE_TABLE = 'route';
 	const FLIGHT_TABLE = 'flight';
 	const SEAT_TABLE = 'booked_seat';
@@ -19,8 +18,6 @@ class Booking {
 	const COL_BUSINESS = "business";
 	const COL_DEPARTURE = "departure";
 	const COL_SEAT = 'seat_number';
-	const COL_IATA = 'iata_code';
-	const COL_COUNTRY = 'country';
 	const COL_SOURCE = 'source';
 	const COL_DESTINATION = 'destination';
 

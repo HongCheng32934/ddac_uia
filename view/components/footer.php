@@ -3,14 +3,13 @@
         <div class="medium-6 columns">
             <p class="footer-links">
               <a href="#">About</a>
-              <a href="#">Contact</a>
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms &amp; Condition</a>
             </p>
         </div>
         <div class="medium-6 columns">
             <ul class="float-right">
-                <p class="copyright">&copy; 2017 Ukraine International Airlines. All rights reserved.</p>
+                <p class="copyright">Copyright &copy; 2017, Ukraine International Airlines</p>
             </ul>
         </div>
     </div>

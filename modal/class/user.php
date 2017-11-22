@@ -3,16 +3,11 @@
 class User {
 	// table field name
 	const USER_TABLE = 'user';
-	const SESSION_TABLE = 'user_session';
 	const COL_USER_ID = 'user_id';
 	const COL_NAME = 'full_name';
-	const COL_BIRTHDATE = 'birth_date';
 	const COL_EMAIL = 'email';
 	const COL_PASSWORD = 'password';
 	const COL_SALT = 'salt';
-	const COL_DATEJOINED = 'date_joined';
-	const COL_ROLE_ID = 'role_id';
-	const COL_SESSION_ID = 'session_id';
 	const COL_HASH = 'hash';
 
 	private $_db, $_data;
@@ -31,32 +26,13 @@ class User {
 	*
 	* @param string         $email    	 User email
 	* @param string         $password    Account password
-	* @param boolean        $remember    Store session for a limited time if true
 	* @return boolean                    True if success, else false
 	*/
-	public function login($email, $password, $remember = false) {
+	public function login($email, $password) {
 		if($this->find($email, true)) {
 			if($this->_data[self::COL_PASSWORD] === Hash::make($password, $this->_data[self::COL_SALT])) {
 				$_SESSION['ID'] = $this->_data[self::COL_USER_ID];
-				$_SESSION['role'] = $this->_data[self::COL_ROLE_ID];
 				$_SESSION['name'] = $this->_data[self::COL_NAME];
-
-				if($remember) {
-					$hashCheck = $this->_db->select(self::SESSION_TABLE, array(), array(self::COL_USER_ID, '=', $_SESSION['ID']));
-
-					if(!$hashCheck->count()) {
-						$hash = Hash::unique();
-						$this->_db->insert(self::SESSION_TABLE, array(
-							self::COL_USER_ID => $this->_data[self::COL_USER_ID],
-							self::COL_HASH => $hash
-						));
-					}
-					else {
-						$hash = $hashCheck->fetch()->hash;
-					}
-
-					Cookie::put(Config::get('cookie_name'), $hash, Config::get('cookie_expiry'));
-				}
 
 				return 0;
 			}
@@ -83,7 +59,6 @@ class User {
 	* Remove current user session
 	*/
 	public function logout() {
-		$this->_db->delete(self::SESSION_TABLE, array(self::COL_USER_ID,'=',$this->_data[self::COL_USER_ID]));
 		$this->_data = null;
 
 		Cookie::delete(Config::get('cookie_name'));
@@ -182,7 +157,7 @@ class User {
 	* @return boolean                    True if user is logged in, else false
 	*/
 	public function isLoggedIn() {
-		return (!empty($this->_data));
+		return $_SESSION['ID'] != Config::get('guest');
 	}
 
 

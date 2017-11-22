@@ -59,39 +59,38 @@ if(Input::exist()) {
 		</div>
 	<?php endif; ?>
 
-		<div class="medium-6 medium-centered large-4 large-centered columns">
+		<div class="large-4 columns" style="background-color:white;padding:15px;position:absolute;top:50%;left:50%;margin: -299px 0 0 -250px;">
+
+			<div class="centralise component-padding" style="padding-top: 5px">
+				<a href="index.php"><img id="classic-top-logo" src="img/uia-full-logo.png" /></a>
+			</div>
 
 			<form method="post" action="" accept-charset="UTF-8">
-				<div class="row column" style="margin-bottom: 120px;">
+				<div class="row column">
 
-					<div class="form-border">
-						<h3 class="text-center">Sign up</h3>
+					<h5 class="text-center">Fill in the details to create a new account</h5>
 
-						<label>Full Name
-							<input id="fullName" name="fullName" type="text" placeholder="John Doe" autocomplete="off" data-max-length='128' required>
-						</label>
+					<label>Full Name
+						<input id="fullName" name="fullName" type="text" placeholder="Full Name" autocomplete="off" data-max-length='128' required>
+					</label>
 
-						<label>Date of Birth
-			                <div class="input-group date" >
-			                  <span class="input-group-label"><i class="fi-calendar"></i></span>
-			                  <input id="birthdate" name="birthdate" class="input-group-field" type="text" placeholder="28/08/1988" required>
-			                </div>
-						</label>
+					<label>Email
+						<input id="email" name="email" type="email" placeholder="Email" data-max-length='128' required>
+					</label>
 
-						<label>Email
-							<input id="email" name="email" type="email" placeholder="somebody@example.com" data-max-length='128' required>
-						</label>
+					<label>Password
+						<input id="password" name="password" data-min-length="5" type="password" placeholder="Password" data-max-length='16' required>
+					</label>
 
-						<label>Password
-							<input id="password" name="password" data-min-length="5" type="password" placeholder="password" data-max-length='16' required>
-						</label>
+					<label>Retype Password
+						<input id="passwordConfirm" name="passwordConfirm" type="password" placeholder="Retype Password" data-max-length='16' data-equal-id="password" required>
+					</label>
 
-						<label>Retype Password
-							<input id="passwordConfirm" name="passwordConfirm" type="password" placeholder="password" data-max-length='16' data-equal-id="password" required>
-						</label>
+					<button type="submit" id="post" class="button expanded">Register</button>
 
-						<button type="submit" id="post" class="button expanded">Sign Up</button>
-						<p class="text-center">Already have an account? <a href="portal.php?page=signin">Sign in</a>
+					<div class="expanded button-group">
+						<a class="button secondary" href="portal.php?page=signin">Sign in</a>
+						<a class="button secondary disabled">Sign Up</a>
 					</div>
 
 				</div>
@@ -104,26 +103,13 @@ if(Input::exist()) {
 </div>
 <!-- Content end -->
 
-<!-- Footer start -->
-<div id="footer" class="classic-footer">
-	<?php require_once('/view/components/footer.php'); ?>
-</div>
-<!-- Footer end -->
 
 <!-- JQuery -->
 <script src="js/jquery.min.js"></script>
 <!-- Foundation -->
 <script src="js/foundation.min.js"></script>
-<script src="js/foundation-datepicker.min.js"></script>
 <script src="js/app.js"></script>
 <script>
-$(function(){
-  $('#birthdate').fdatepicker({
-  	format: 'dd/mm/yyyy',
-  	endDate: new Date()
-	});
-});
-
 // custom validation
 $('[data-equal-id]').bind('input', function() {
     var to_confirm = $(this);

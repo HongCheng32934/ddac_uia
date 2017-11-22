@@ -13,7 +13,7 @@ if(Input::exist()) {
 ?>
 
 <!-- Content start -->
-<div id="content">
+<div id="content" style="height:100%;">
 
 	<!-- View start -->
 	<div class="row">
@@ -36,26 +36,31 @@ if(Input::exist()) {
 		</div>
 	<?php endif; ?>
 
-		<div class="medium-6 medium-centered large-4 large-centered columns">
+		<div class="large-4 columns" style="background-color:white;padding:15px;position:absolute;top:50%;left:50%;margin: -220px 0 0 -250px;">
+
+			<div class="centralise component-padding" style="padding-top: 5px">
+				<a href="index.php"><img id="classic-top-logo" src="img/uia-full-logo.png" /></a>
+			</div>
 
 			<form method="post" action="" accept-charset="UTF-8">
 				<div class="row column">
 
-					<div class="form-border">
-						<h3 class="text-center">Sign in</h3>
+					<h5 class="text-center">Sign in to start your session</h5>
 
-						<label>Email
-							<input id="email" name="email" type="email" placeholder="somebody@example.com" required>
-						</label>
+					<label>Email
+						<input id="email" name="email" type="email" placeholder="Email" required>
+					</label>
 
-						<label>Password
-							<input id="password" name="password" type="password" placeholder="password" required>
-						</label>
+					<label>Password
+						<input id="password" name="password" type="password" placeholder="Password" required>
+					</label>
 
-						<input id="remember" name="remember" type="checkbox"><label for="remember">Remember me</label>
+					<button type="submit" id="post" class="button expanded">Login</button>
 
-						<button type="submit" id="post" class="button expanded">Sign In</button>
-						<p class="text-center">Don't have an account? <a href="portal.php?page=signup">Sign up</a>
+
+					<div class="expanded button-group">
+						<a class="button secondary disabled">Sign in</a>
+						<a class="button secondary" href="portal.php?page=signup">Sign Up</a>
 					</div>
 
 				</div>
@@ -68,11 +73,6 @@ if(Input::exist()) {
 </div>
 <!-- Content end -->
 
-<!-- Footer start -->
-<div id="footer" class="classic-footer">
-	<?php require_once('/view/components/footer.php'); ?>
-</div>
-<!-- Footer end -->
 
 <!-- JQuery -->
 <script src="js/jquery.min.js"></script>

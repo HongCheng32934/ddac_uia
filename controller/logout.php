@@ -1,5 +1,5 @@
 <?php
-require_once ('/../modal/core/setup.php');
+require_once ('../modal/core/setup.php');
 
 $user->logout();
 

@@ -113,11 +113,11 @@
         
         <div class="row column">
             <ul class="vertical medium-horizontal menu expanded text-center">
-                <li><a href="#"><div class="stat">28k</div><span>Flights yearly</span></a></li>
-                <li><a href="#"><div class="stat">43</div><span>Countries</span></a></li>
-                <li><a href="#"><div class="stat">95</div><span>Cities</span></a></li>
-                <li><a href="#"><div class="stat">70</div><span>Years of experience</span></a></li>
-                <li><a href="#"><div class="stat">5</div><span>Star service</span></a></li>
+                <li style="background-color: white;"><a href="#"><div class="stat">28k</div><span>Flights yearly</span></a></li>
+                <li style="background-color: white;"><a href="#"><div class="stat">43</div><span>Countries</span></a></li>
+                <li style="background-color: white;"><a href="#"><div class="stat">95</div><span>Cities</span></a></li>
+                <li style="background-color: white;"><a href="#"><div class="stat">70</div><span>Years of experience</span></a></li>
+                <li style="background-color: white;"><a href="#"><div class="stat">5</div><span>Star service</span></a></li>
             </ul>
         </div>
         <hr />

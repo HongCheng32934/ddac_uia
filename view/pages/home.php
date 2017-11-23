@@ -19,13 +19,13 @@
             </h4>
             
             <div id="content-load">
-                
+
             </div>
         </div>
 
         <div class="small-12 large-4 columns">
             <div class="callout">
-                <h4>
+                <h4 style="margin-bottom:10px">
                     <i class="fi-plus"></i>
                      Search
                 </h4>
@@ -138,9 +138,11 @@
 <!-- Content end -->
 
 <!-- Footer start -->
+<?php if(!$user->isLoggedIn()): ?>
 <div id="footer" class="classic-footer">
     <?php require_once('view/components/footer.php'); ?>
 </div>
+<?php endif; ?>
 <!-- Footer end -->
 
 <!-- JQuery -->

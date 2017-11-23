@@ -32,24 +32,24 @@ else {
 
 			</div>
 
-			<div class="small-12 medium-4 columns" style="padding: 0; height: 100%; overflow-y: auto;">
+			<div class="small-12 medium-4 columns">
+				<div class="callout">
+					<div class="row columns">
+						<div class="row columns" style="margin-bottom:10px">
+							<h4><i class="fi-plus"></i> Booking Details</h4>
+						</div>
 
-				<div class="row columns" style="padding: 0px;">
-					<div class="row columns" style="padding: 15px;">
-						<h3><i class="fi-plus"></i> Booking Details</h3>
+	                  <div class="row columns">
+	                          <ul class="vertical-detail">
+									<li><span>Date Booked</span><?php echo $flight[Booking::COL_DATE_BOOKED]; ?></li>
+	                              <li><span>Origin</span><?php echo $flight[Booking::COL_SOURCE]; ?></li>
+	                              <li><span>Destination</span><?php echo $flight[Booking::COL_DESTINATION]; ?></li>
+	                              <li><span>Departure</span><?php echo $flight[Booking::COL_DEPARTURE]; ?></li>
+	                              <li><span>Total</span><p id="total">$0</p></li>
+	                          </ul>
+	                  </div>
+
 					</div>
-
-                  <div class="row columns">
-                      <div class="small-12 columns">
-                          <ul class="vertical-detail">
-                              <li><span>Origin</span><?php echo $flight[Booking::COL_SOURCE]; ?></li>
-                              <li><span>Destination</span><?php echo $flight[Booking::COL_DESTINATION]; ?></li>
-                              <li><span>Departure</span><?php echo $flight[Booking::COL_DEPARTURE]; ?></li>
-                              <li><span>Total</span>$<p id="total">0</p></li>
-                          </ul>
-                      </div>
-                  </div>
-
 				</div>
 
 			</div>
@@ -81,9 +81,8 @@ $(document).ready(function() {
 			'fff_fff',
 			'fff_fff',
 			'bbb_bbb',
+			'bbb_bbb',
 			'eee_eee',
-			'eee_eee',
-			'eee___',
 			'eee_eee',
 			'eee_eee',
 			'eee_eee',
@@ -125,56 +124,11 @@ $(document).ready(function() {
 				[ 'e', 'available',   'Economy Class'],
 				[ 'f', 'selected', 'Booked Seats']
 		    ]					
-		},
-		click: function () {
-			if (this.status() == 'available') {
-				//let's create a new <li> which we'll add to the cart items
-				console.log(this.data().type);
-				$('<li>'+this.data().category+' Seat #<input type="checkbox" name="seats[]" style="display: none" value="'+this.settings.label+':'+this.data().type+'" checked/>'+this.settings.label+': <b>$'+this.data().price+'</b> <a href="javascript:void(0)" class="cancel-cart-item">[cancel]</a></li>')
-					.attr('id', 'cart-item-'+this.settings.id)
-					.data('seatId', this.settings.id)
-					.appendTo($cart);
-
-				var selTotal = sc.find('selected').length+1;
-				$counter.text(selTotal);
-				$("#post").attr("disabled", (selTotal == 0));
-
-				$total.text(recalculateTotal(sc)+this.data().price);
-				
-				return 'selected';
-			} else if (this.status() == 'selected') {
-				//update the counter
-				var selTotal = sc.find('selected').length-1;
-				$counter.text(selTotal);
-				$("#post").attr("disabled", (selTotal == 0));
-
-				//and total
-				$total.text(recalculateTotal(sc)-this.data().price);
-			
-				//remove the item from our cart
-				$('#cart-item-'+this.settings.id).remove();
-			
-				//seat has been vacated
-				return 'available';
-			} else if (this.status() == 'unavailable') {
-				//seat has been already booked
-				return 'unavailable';
-			} else {
-				return this.style();
-			}			
 		}
 	});
 
-	//this will handle "[cancel]" link clicks
-	$('#selected-seats').on('click', '.cancel-cart-item', function () {
-		//let's just trigger Click event on the appropriate seat, so we don't have to repeat the logic here
-		sc.get($(this).parents('li:first').data('seatId')).click();
-	});
-
-	//let's pretend some seats have already been booked
 	sc.get([<?php echo implode(", ",$seats); ?>]).status('selected');
 
-	//console.log(sc.get('E_6').data().type);
 	$total.text(recalculateTotal(sc));
 });
 
@@ -186,7 +140,7 @@ function recalculateTotal(sc) {
 		total += this.data().price;
 	});
 
-	return total;
+	return '$'+total;
 }
 
 </script>

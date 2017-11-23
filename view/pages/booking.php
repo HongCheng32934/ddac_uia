@@ -88,51 +88,37 @@ if(Input::exist() && isset($_POST['confirm'])) {
 				</div>
 			</div>
 
-			<div class="small-4 columns">
-				<form method="post" action="" accept-charset="UTF-8">
+
+			<div class="small-12 medium-4 columns">
+				<div class="callout">
 					<div class="row columns">
-                        <ul class="accordion" data-accordion="true" data-multi-expand="true" data-allow-all-closed="true">
-                            <li class="accordion-item is-active" data-accordion-item="true">
-                              <a href="#" class="accordion-title">Flight</a>
-                              <div class="accordion-content" data-tab-content="true">
+						<div class="row columns" style="margin-bottom:10px">
+							<h4><i class="fi-plus"></i> Booking Details</h4>
+						</div>
 
-                                  <div class="row">
-                                      <div class="small-12 columns" id"selSeat">
-                                          <ul class="vertical-detail">
-                                              <li><span>Origin</span><?php echo $flight[Booking::COL_SOURCE]; ?></li>
-                                              <li><span>Destination</span><?php echo $flight[Booking::COL_DESTINATION]; ?></li>
-                                              <li><span>Departure</span><?php echo $flight[Booking::COL_DEPARTURE]; ?></li>
-                                          </ul>
-                                          <input type="hidden" name="origin" value="<?php echo Input::get('ori'); ?>">
-                                          <input type="hidden" name="departure" value="<?php echo Input::get('des'); ?>">
-                                      </div>
-                                  </div>
-
-                              </div>
-                            </li>
-
-                            <li class="accordion-item is-active" data-accordion-item="true">
-                              <a href="#" class="accordion-title">Seats (<span id="counter">0</span>)</a>
-                              <div class="accordion-content" data-tab-content="true">
-
-                                  <div class="row">
-                                      <div class="small-12 columns">
-										<ul id="selected-seats"></ul>
-										<h5 style="margin-bottom:0px">Total: <b>$<span id="total">0</span></b></h5>
-
-                                      </div>
-                                  </div>
-
-                              </div>
-                            </li>
-                        </ul>
-
-						<div class="small-12 columns">
-							<button type="submit" id="post" name="confirm" class="button expanded" disabled>Confirm</button>
-						</div>	
+	                  <div class="row columns">
+						<form method="post" action="" accept-charset="UTF-8">
+							<ul class="vertical-detail">
+								<li><span>Origin</span><?php echo $flight[Booking::COL_SOURCE]; ?></li>
+								<li><span>Destination</span><?php echo $flight[Booking::COL_DESTINATION]; ?></li>
+								<li><span>Departure</span><?php echo $flight[Booking::COL_DEPARTURE]; ?></li>
+								<li><span>Seats Selected (<span id="counter" style="display:inline">0</span>)</span>
+								<ul id="selected-seats" style="margin-bottom:0px"></ul>
+								</li>
+								<h5 style="margin-bottom:0px">Total: <b>$<span id="total">0</span></b></h5>
+							</ul>
+                              <input type="hidden" name="origin" value="<?php echo Input::get('ori'); ?>">
+                              <input type="hidden" name="departure" value="<?php echo Input::get('des'); ?>">
+                              
+								<div class="row columns">
+									<button type="submit" id="post" name="confirm" class="button expanded" disabled>Confirm</button>
+								</div>	
+						</form>
+	                  </div>
 
 					</div>
-				</form>
+				</div>
+
 			</div>
 
 		</div>
@@ -148,7 +134,6 @@ if(Input::exist() && isset($_POST['confirm'])) {
 <!-- Foundation -->
 <script src="js/foundation.min.js"></script>
 <script src="js/app.js"></script>
-<script src="js/foundation-datepicker.min.js"></script>
 <script src="js/jquery.seat-charts.min.js"></script>
 <script>
 
@@ -165,9 +150,8 @@ $(document).ready(function() {
 			'fff_fff',
 			'fff_fff',
 			'bbb_bbb',
+			'bbb_bbb',
 			'eee_eee',
-			'eee_eee',
-			'eee___',
 			'eee_eee',
 			'eee_eee',
 			'eee_eee',
@@ -212,8 +196,9 @@ $(document).ready(function() {
 		},
 		click: function () {
 			if (this.status() == 'available') {
-				$('<li><input type="checkbox" name="seats[]" style="display: none" value="'+this.settings.label+':'+this.data().type+'" checked/>'+this.settings.label+' ('+this.data().category+'): <b>$'+this.data().price+'</b> <a href="javascript:void(0)" class="cancel-cart-item">[cancel]</a></li>')
+				$('<li><input type="checkbox" name="seats[]" style="display: none" value="'+this.settings.label+'" checked/>'+this.settings.label+' ('+this.data().category+'): <b>$'+this.data().price+'</b> <a href="javascript:void(0)" class="cancel-cart-item">[cancel]</a></li>')
 					.attr('id', 'cart-item-'+this.settings.id)
+					.attr('style', 'margin-bottom:1px')
 					.data('seatId', this.settings.id)
 					.appendTo($cart);
 

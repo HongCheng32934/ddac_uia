@@ -142,7 +142,8 @@ class Booking {
 		$query .= self::PRICE_TABLE . "." . self::COL_FIRST . ", ";
 		$query .= self::FLIGHT_TABLE . "." . self::COL_DEPARTURE . ", ";
 		$query .= self::ROUTE_TABLE . "." . self::COL_SOURCE . ", ";
-		$query .= self::ROUTE_TABLE . "." . self::COL_DESTINATION . " FROM " . self::BOOKING_TABLE;
+		$query .= self::ROUTE_TABLE . "." . self::COL_DESTINATION . ", ";
+		$query .= self::BOOKING_TABLE . "." . self::COL_DATE_BOOKED . " FROM " . self::BOOKING_TABLE;
 		$query .= " INNER JOIN " . self::FLIGHT_TABLE;
 		$query .= " ON " . self::BOOKING_TABLE . "." . self::COL_FLIGHT_ID . "=" . self::FLIGHT_TABLE . "." . self::COL_FLIGHT_ID;
 		$query .= " INNER JOIN " . self::PRICE_TABLE;

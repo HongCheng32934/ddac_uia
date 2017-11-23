@@ -30,7 +30,6 @@ if($page->data()[Page::COL_SLUG] == 'home' || $page->data()[Page::COL_SLUG] == '
             <div class="top-bar-right">
 			    <ul class="dropdown menu" data-dropdown-menu>
 					<li><a href="index.php">Home</a></li>
-					<li><a href="index.php?page=search">Booking</a></li>
 					<li>
 						<a href="#"><?php echo $_SESSION['name']; ?></a>
 						<ul class="menu vertical">
